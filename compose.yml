@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  ubuntu:
+    image: ubuntu:latest
+    container_name: ubuntu_container
+    hostname: ubuntu.mydomain.local
+    command: tail -f /dev/null # コンテナを起動し続ける
+    networks:
+      default:
+        ipv4_address: 172.20.0.2
+
+  alpine:
+    image: alpine:latest
+    container_name: alpine_container
+    hostname: alpine.mydomain.local
+    command: tail -f /dev/null # コンテナを起動し続ける
+    networks:
+      default:
+        ipv4_address: 172.20.0.3
+
+  fedora:
+    image: fedora:latest
+    container_name: fedora_container
+    hostname: fedora.mydomain.local
+    command: tail -f /dev/null # コンテナを起動し続ける
+    networks:
+      default:
+        ipv4_address: 172.20.0.4
+
+  debian:
+    build:
+      context: ./docker/linux/debian/
+    container_name: debian_container
+    hostname: debian.mydomain.local
+    command: tail -f /dev/null # コンテナを起動し続ける
+    networks:
+      default:
+        ipv4_address: 172.20.0.5
+
+  custom_mysql:
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    container_name: custom_mysql_container
+    hostname: mysql.mydomain.local
+    networks:
+      mysql_network:
+        ipv4_address: 172.30.0.2
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
+  mysql_network:
+    ipam:
+      config:
+        - subnet: 172.30.0.0/16
+          gateway: 172.30.0.1

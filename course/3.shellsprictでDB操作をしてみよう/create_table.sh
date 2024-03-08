@@ -1,0 +1,17 @@
+#!/bin/bash
+# create_table.sh
+
+MYSQL_HOST="custom_mysql_container"
+MYSQL_USER="root"
+MYSQL_PASS="yourpassword"
+MYSQL_DB_NAME="exampledb"
+MYSQL_TABLE_NAME="users"
+
+mysql -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASS" -e "
+CREATE DATABASE IF NOT EXISTS $MYSQL_DB_NAME;
+USE $MYSQL_DB_NAME;
+CREATE TABLE IF NOT EXISTS $MYSQL_TABLE_NAME (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255),
+  email VARCHAR(255)
+);"
